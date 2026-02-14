@@ -13,6 +13,7 @@ export class GeminiTextProvider implements ITextGenerator {
     }
 
     async generatePost(params: TextGenerationParams): Promise<GeneratedContent> {
+        console.log(`[GeminiTextProvider] Using API URL: ${this.apiUrl}`);
         console.log(`[GeminiTextProvider] Generating post with params:`, params);
 
         // --- MODO MANUAL (REVISÃO) ---

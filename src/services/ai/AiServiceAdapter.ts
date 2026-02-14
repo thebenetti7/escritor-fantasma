@@ -18,7 +18,12 @@ class AiServiceAdapter {
 
         if (geminiKey) {
             console.log('[AiService] Selected Provider: Gemini');
-            this.textProvider = new GeminiTextProvider(geminiKey);
+            // Use direct URL in production (Vercel) to avoid 404 on proxy
+            const baseUrl = import.meta.env.PROD
+                ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
+                : '/api/gemini/v1beta/models/gemini-2.0-flash:generateContent';
+
+            this.textProvider = new GeminiTextProvider(geminiKey, baseUrl);
         } else if (openAiKey) {
             console.log('[AiService] Selected Provider: OpenAI');
             this.textProvider = new OpenAiTextProvider(openAiKey);

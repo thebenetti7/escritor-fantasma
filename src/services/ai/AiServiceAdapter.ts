@@ -18,10 +18,16 @@ class AiServiceAdapter {
 
         if (geminiKey) {
             console.log('[AiService] Selected Provider: Gemini');
-            // Use direct URL in production (Vercel) to avoid 404 on proxy
-            const baseUrl = import.meta.env.PROD
+
+            // Robust check: if not localhost, assume production (Vercel)
+            const isProd = import.meta.env.PROD || window.location.hostname !== 'localhost';
+
+            // Use direct URL in production to avoid 404 on proxy
+            const baseUrl = isProd
                 ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
                 : '/api/gemini/v1beta/models/gemini-2.0-flash:generateContent';
+
+            console.log(`[AiService] Configured Base URL: ${baseUrl} (isProd: ${isProd})`);
 
             this.textProvider = new GeminiTextProvider(geminiKey, baseUrl);
         } else if (openAiKey) {

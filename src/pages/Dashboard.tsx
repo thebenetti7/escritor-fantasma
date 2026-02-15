@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingBag, TrendingUp, Zap } from 'lucide-react';
+import { ShoppingBag, TrendingUp, Zap, Settings } from 'lucide-react';
 
 interface ModeCardProps {
     title: string;
@@ -36,7 +36,14 @@ export const Dashboard: React.FC = () => {
     return (
         <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-8">
             <div className="max-w-6xl w-full">
-                <header className="mb-16 text-center">
+                <header className="mb-16 text-center relative">
+                    <button
+                        onClick={() => navigate('/settings')}
+                        className="absolute top-0 right-0 p-3 text-slate-400 hover:text-white bg-slate-800/50 rounded-full hover:bg-slate-700 transition-all"
+                        title="Configurações"
+                    >
+                        <Settings size={24} />
+                    </button>
                     <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4">
                         Escritor Fantasma
                     </h1>

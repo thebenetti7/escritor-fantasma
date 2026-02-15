@@ -9,8 +9,12 @@ class AiServiceAdapter {
     private imageProvider: IImageGenerator;
 
     constructor() {
-        const openAiKey = import.meta.env.VITE_OPENAI_API_KEY;
-        const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+        // Prioritize keys from Local Storage (Settings Page)
+        const storedOpenAi = localStorage.getItem('v_openai_key');
+        const storedGemini = localStorage.getItem('v_gemini_key');
+
+        const openAiKey = storedOpenAi || import.meta.env.VITE_OPENAI_API_KEY;
+        const geminiKey = storedGemini || import.meta.env.VITE_GEMINI_API_KEY;
 
         console.log('[AiService] Initializing...');
         console.log('[AiService] OpenAi Key present:', !!openAiKey);
@@ -22,7 +26,8 @@ class AiServiceAdapter {
             // Reverted to simple proxy path. 
             // Local: Handled by vite.config.ts
             // Prod: Handled by vercel.json rewrites
-            const baseUrl = '/api/gemini/v1beta/models/gemini-2.0-flash:generateContent';
+            // Optimization: Using Gemini 1.5 Flash (Stable)
+            const baseUrl = '/api/gemini/v1beta/models/gemini-1.5-flash:generateContent';
 
             this.textProvider = new GeminiTextProvider(geminiKey, baseUrl);
         } else if (openAiKey) {
